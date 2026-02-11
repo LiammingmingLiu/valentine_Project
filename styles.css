@@ -1,0 +1,749 @@
+:root {
+  --bg-a: #ffecd8;
+  --bg-b: #f7c9db;
+  --card: #fffaf7;
+  --ink: #301e2c;
+  --soft-ink: #6e4e62;
+  --yes: #e63973;
+  --yes-dark: #c92760;
+  --no: #fff;
+  --line: #f2d9e3;
+  --accent: #ff7a9f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: "Noto Sans SC", sans-serif;
+  color: var(--ink);
+  background: radial-gradient(circle at 20% 10%, #ffe9f1 0, rgba(255, 233, 241, 0) 45%),
+    linear-gradient(120deg, var(--bg-a), var(--bg-b));
+}
+
+.background-glow {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 80% 80%, rgba(255, 122, 159, 0.16), transparent 35%);
+}
+
+.app-shell {
+  width: min(760px, 92vw);
+  margin: 0 auto;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 28px 0 40px;
+}
+
+.screen {
+  display: none;
+  width: 100%;
+  animation: rise 0.4s ease;
+}
+
+.screen.active {
+  display: block;
+}
+
+.kicker {
+  margin: 0 0 8px;
+  color: var(--soft-ink);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+h1 {
+  margin: 0;
+  text-align: center;
+  font-family: "Playfair Display", serif;
+  font-size: clamp(2rem, 6vw, 3.4rem);
+  line-height: 1.1;
+}
+
+h2 {
+  margin-top: 0;
+  font-family: "Playfair Display", serif;
+  font-size: clamp(1.6rem, 3.6vw, 2.2rem);
+}
+
+h3 {
+  margin: 22px 0 10px;
+  font-size: 1rem;
+}
+
+.subtitle {
+  margin: 12px 0 0;
+  color: var(--soft-ink);
+  text-align: center;
+}
+
+.pixel-scene {
+  position: relative;
+  --runner: 248px;
+  --gap: 170px;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  height: 360px;
+  margin-top: 10px;
+  margin-bottom: 6px;
+  overflow: visible;
+  background: transparent;
+  border: 0;
+}
+
+.pixel-runner {
+  position: absolute;
+  bottom: 20px;
+  width: var(--runner);
+  height: var(--runner);
+  will-change: transform;
+}
+
+.pixel-girl {
+  animation: chaseGirl 5.2s linear infinite;
+}
+
+.pixel-boy {
+  animation: chaseBoy 5.2s linear infinite;
+}
+
+.sprite {
+  position: absolute;
+  inset: 0;
+  width: var(--runner);
+  height: var(--runner);
+  image-rendering: pixelated;
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: contain;
+  display: block;
+  filter: drop-shadow(0 10px 16px rgba(48, 30, 44, 0.12));
+  transform-origin: 50% 100%;
+  will-change: transform;
+  animation: spriteJitter 320ms steps(2, end) infinite;
+}
+
+.sprite-boy {
+  background-image: url("assets/boy.png");
+}
+
+.sprite-girl {
+  background-image: url("assets/girl.png");
+  animation-duration: 360ms;
+}
+
+.pixel-heart-fx {
+  --hpx: 5px;
+  position: absolute;
+  width: var(--hpx);
+  height: var(--hpx);
+  background: #ff357a;
+  box-shadow:
+    calc(1 * var(--hpx)) 0 #ff357a,
+    calc(3 * var(--hpx)) 0 #ff357a,
+    calc(4 * var(--hpx)) 0 #ff357a,
+    0 calc(1 * var(--hpx)) #ff357a,
+    calc(1 * var(--hpx)) calc(1 * var(--hpx)) #ff357a,
+    calc(2 * var(--hpx)) calc(1 * var(--hpx)) #ff357a,
+    calc(3 * var(--hpx)) calc(1 * var(--hpx)) #ff357a,
+    calc(4 * var(--hpx)) calc(1 * var(--hpx)) #ff357a,
+    calc(1 * var(--hpx)) calc(2 * var(--hpx)) #ff357a,
+    calc(2 * var(--hpx)) calc(2 * var(--hpx)) #ff357a,
+    calc(3 * var(--hpx)) calc(2 * var(--hpx)) #ff357a,
+    calc(2 * var(--hpx)) calc(3 * var(--hpx)) #ff357a;
+  opacity: 0;
+  transform: translate3d(0, 0, 0) scale(0.9);
+  animation: heartBurst 900ms ease-out forwards;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+.pixel-heart-fx.soft {
+  filter: blur(0.3px);
+  opacity: 0;
+}
+
+/* 跟随小人一起跑的爱心 */
+.trailing-heart {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.trailing-heart::before {
+  content: '❤️';
+  font-size: 16px;
+  position: absolute;
+  animation: trailFloat 1.2s ease-out forwards;
+}
+
+@keyframes trailFloat {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(0.5);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateY(-30px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-60px) scale(0.3);
+  }
+}
+
+/* 游戏通关风 - 最后一页样式 */
+.victory-badge {
+  font-size: 64px;
+  text-align: center;
+  animation: badgePop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  margin-bottom: 10px;
+}
+
+@keyframes badgePop {
+  0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+  70% { transform: scale(1.2) rotate(10deg); }
+  100% { transform: scale(1) rotate(0); opacity: 1; }
+}
+
+.victory-title {
+  text-align: center;
+  font-size: 2.4rem;
+  background: linear-gradient(135deg, #ff357a, #ff9ec8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 20px;
+  animation: titleGlow 2s ease-in-out infinite;
+}
+
+@keyframes titleGlow {
+  0%, 100% { filter: drop-shadow(0 0 10px rgba(255, 53, 122, 0.3)); }
+  50% { filter: drop-shadow(0 0 20px rgba(255, 53, 122, 0.6)); }
+}
+
+.score-circle {
+  width: 140px;
+  height: 140px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ffecf3, #ffe0ea);
+  border: 4px solid #ff357a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 32px rgba(255, 53, 122, 0.2);
+  animation: scorePulse 2s ease-in-out infinite;
+}
+
+@keyframes scorePulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 8px 32px rgba(255, 53, 122, 0.2); }
+  50% { transform: scale(1.02); box-shadow: 0 12px 40px rgba(255, 53, 122, 0.35); }
+}
+
+.score-number {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #ff357a;
+  line-height: 1;
+}
+
+.score-label {
+  font-size: 0.85rem;
+  color: #98405f;
+  margin-top: 4px;
+}
+
+.victory-subtitle {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #ff357a;
+  font-weight: 600;
+  margin: 0 0 24px;
+}
+
+.achievement-box {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: linear-gradient(135deg, #fff5f8, #ffecf3);
+  border: 2px solid #ffd4e3;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.achievement-icon {
+  font-size: 36px;
+  animation: iconFloat 2s ease-in-out infinite;
+}
+
+@keyframes iconFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.achievement-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.achievement-name {
+  font-weight: 700;
+  color: #ff357a;
+  font-size: 1.1rem;
+}
+
+.achievement-desc {
+  font-size: 0.9rem;
+  color: #98405f;
+  margin-top: 2px;
+}
+
+.mission-title {
+  font-size: 1.1rem;
+  margin: 0 0 12px;
+  color: #301e2c;
+}
+
+.mission-list {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.mission-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fff;
+  border: 2px solid #f2d9e3;
+  border-radius: 14px;
+  padding: 14px;
+  transition: all 0.3s ease;
+}
+
+.mission-item:hover {
+  border-color: #ff9ec8;
+  transform: translateX(4px);
+}
+
+.mission-item.completed {
+  background: #e8fff0;
+  border-color: #7fdb9c;
+}
+
+.mission-checkbox {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 3px solid #ff357a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.mission-item.completed .mission-checkbox {
+  background: #7fdb9c;
+  border-color: #7fdb9c;
+  color: white;
+}
+
+.mission-text {
+  flex: 1;
+  font-size: 0.95rem;
+}
+
+.mission-item.completed .mission-text {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.unlock-msg {
+  text-align: center;
+  color: #ff357a;
+  font-weight: 600;
+  margin-bottom: 20px;
+  animation: unlockPulse 2s ease-in-out infinite;
+}
+
+@keyframes unlockPulse {
+  0%, 100% { opacity: 0.8; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.02); }
+}
+
+.sparkle {
+  display: inline-block;
+  animation: sparkle 1.5s ease-in-out infinite;
+}
+
+.sparkle:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+@keyframes sparkle {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  50% { transform: scale(1.3) rotate(20deg); opacity: 0.8; }
+}
+
+.final-cta {
+  margin-top: 20px;
+}
+
+.share-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+@media (max-width: 640px) {
+  .victory-title {
+    font-size: 2rem;
+  }
+  
+  .score-circle {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .score-number {
+    font-size: 2.5rem;
+  }
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 14px 36px rgba(124, 37, 67, 0.13);
+}
+
+.final-card p {
+  color: var(--soft-ink);
+}
+
+.cta-row {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 28px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  border: none;
+  cursor: pointer;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 0.84rem 1.4rem;
+  transition: transform 0.22s ease, opacity 0.22s ease, background 0.22s ease;
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn-yes {
+  background: var(--yes);
+  color: #fff;
+}
+
+.btn-yes:hover {
+  background: var(--yes-dark);
+}
+
+.btn-no {
+  background: var(--no);
+  border: 1px solid #d8c8d1;
+  color: var(--ink);
+}
+
+.btn-next {
+  background: #ffe0ea;
+  color: #832546;
+}
+
+.hint {
+  margin: 14px 0 0;
+  min-height: 1.4em;
+  text-align: center;
+  color: var(--soft-ink);
+}
+
+.quiz-header {
+  margin-bottom: 14px;
+}
+
+#progress-text {
+  margin: 0 0 8px;
+  color: var(--soft-ink);
+  font-size: 0.92rem;
+}
+
+.progress-track {
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  background: #f4d8e4;
+  overflow: hidden;
+}
+
+.progress-fill {
+  width: 16%;
+  height: 100%;
+  background: linear-gradient(90deg, #ff6f9b, #e63973);
+  transition: width 0.2s ease;
+}
+
+.options-wrap {
+  margin: 18px 0;
+  display: grid;
+  gap: 10px;
+}
+
+.option-btn {
+  background: #fff;
+  border: 1px solid #edd5df;
+  border-radius: 14px;
+  padding: 14px;
+  text-align: left;
+  font-size: 0.96rem;
+  color: var(--ink);
+}
+
+.option-btn:hover {
+  border-color: #d47f9f;
+}
+
+.option-btn.selected {
+  border-color: #ca3f72;
+  background: #ffe7f0;
+}
+
+#next-btn {
+  margin-top: 6px;
+}
+
+.wish-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.wish-item {
+  border: 1px solid #ecd4de;
+  border-radius: 12px;
+  background: #fff;
+  padding: 10px 12px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 0.92rem;
+}
+
+.wish-item input {
+  accent-color: #df4378;
+  width: 18px;
+  height: 18px;
+}
+
+.error-text {
+  min-height: 1.4em;
+  margin: 10px 0 6px;
+  color: #b11d4d;
+  font-size: 0.9rem;
+}
+
+.score-breakdown {
+  margin-top: 14px;
+  display: grid;
+  gap: 8px;
+}
+
+.compare-row {
+  border: 1px solid #efd6e1;
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: #fff;
+}
+
+.compare-row.matched {
+  border-color: #d16e95;
+  background: #ffedf3;
+}
+
+.compare-q {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.compare-meta {
+  margin-top: 4px;
+  font-size: 0.86rem;
+  color: var(--soft-ink);
+}
+
+#dream-form {
+  display: grid;
+  grid-template-columns: 26px 1fr;
+  gap: 10px 10px;
+  align-items: center;
+}
+
+.input-label {
+  font-weight: 700;
+  color: #98405f;
+}
+
+.dream-input {
+  width: 100%;
+  border: 1px solid #e8cad6;
+  border-radius: 10px;
+  padding: 11px 12px;
+  font-size: 0.95rem;
+}
+
+.dream-input:focus {
+  outline: 2px solid #ffc7d8;
+  border-color: #d6759a;
+}
+
+.submit-btn {
+  grid-column: 1 / -1;
+  margin-top: 8px;
+}
+
+.summary-list {
+  margin: 8px 0 0;
+  padding-left: 22px;
+  color: var(--ink);
+}
+
+.summary-list li {
+  margin-bottom: 6px;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes chaseGirl {
+  0% { left: calc(-1 * var(--runner)); transform: translateY(0); }
+  10% { transform: translateY(-3px); }
+  20% { transform: translateY(0); }
+  30% { transform: translateY(-3px); }
+  40% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+  60% { transform: translateY(0); }
+  70% { transform: translateY(-3px); }
+  80% { transform: translateY(0); }
+  90% { transform: translateY(-3px); }
+  100% { left: calc(100% - var(--runner)); transform: translateY(0); }
+}
+
+@keyframes chaseBoy {
+  /* Keep him behind the girl so they don't overlap */
+  0% { left: calc((-1 * var(--runner)) - var(--gap)); transform: translateY(0); }
+  10% { transform: translateY(-3px); }
+  20% { transform: translateY(0); }
+  30% { transform: translateY(-3px); }
+  40% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+  60% { transform: translateY(0); }
+  70% { transform: translateY(-3px); }
+  80% { transform: translateY(0); }
+  90% { transform: translateY(-3px); }
+  100% { left: calc((100% - var(--runner)) - var(--gap)); transform: translateY(0); }
+}
+
+@keyframes heartBurst {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(0.7);
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--dx, 0px), var(--dy, -120px), 0) scale(var(--s, 1.12));
+  }
+}
+
+@keyframes spriteJitter {
+  0% { transform: translateY(0) rotate(0deg) scale(1); }
+  50% { transform: translateY(-2px) rotate(-0.6deg) scale(1.01); }
+  100% { transform: translateY(0) rotate(0deg) scale(1); }
+}
+
+@media (max-width: 640px) {
+  .app-shell {
+    width: min(720px, 94vw);
+    padding: 18px 0 24px;
+  }
+
+  .card {
+    border-radius: 18px;
+    padding: 18px;
+  }
+
+  .wish-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .btn {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .pixel-scene {
+    --runner: 212px;
+    --gap: 150px;
+    height: 320px;
+  }
+
+  .pixel-runner,
+  .pixel-svg {
+    width: var(--runner);
+    height: var(--runner);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pixel-girl,
+  .pixel-boy,
+  .pixel-heart-fx {
+    animation: none !important;
+  }
+}

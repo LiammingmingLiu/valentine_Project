@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Will You Be My Valentine?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="background-glow"></div>
+
+  <main class="app-shell">
+    <section id="intro-screen" class="screen active">
+      <p class="kicker">For my favorite person across the ocean</p>
+      <h1>Will you be my valentine?</h1>
+      <p class="subtitle">就算不在你身边，也想把今天变得很特别。</p>
+
+      <div class="pixel-scene" aria-hidden="true">
+        <div class="pixel-runner pixel-girl">
+          <div class="sprite sprite-girl" aria-hidden="true"></div>
+        </div>
+        <div class="pixel-runner pixel-boy">
+          <div class="sprite sprite-boy" aria-hidden="true"></div>
+        </div>
+      </div>
+
+      <div class="cta-row">
+        <button id="yes-btn" class="btn btn-yes" type="button">Yes</button>
+        <button id="no-btn" class="btn btn-no" type="button">No</button>
+      </div>
+    </section>
+
+    <section id="quiz-screen" class="screen">
+      <header class="quiz-header">
+        <p id="progress-text">Question 1 / 6</p>
+        <div class="progress-track" aria-hidden="true">
+          <div id="progress-fill" class="progress-fill"></div>
+        </div>
+      </header>
+
+      <div class="card">
+        <h2 id="question-text"></h2>
+        <div id="options-wrap" class="options-wrap"></div>
+        <button id="next-btn" class="btn btn-next" type="button" disabled>下一题</button>
+      </div>
+    </section>
+
+    <section id="wish-screen" class="screen">
+      <div class="card">
+        <h2 id="score-title">我们的心有灵犀挑战完成啦</h2>
+        <p id="score-desc" class="subtitle"></p>
+        <div id="score-breakdown" class="score-breakdown"></div>
+
+        <h3>写下你最想和我做的三件事</h3>
+        <form id="dream-form" novalidate>
+          <label class="input-label" for="dream-1">1.</label>
+          <input id="dream-1" class="dream-input" type="text" maxlength="80" placeholder="比如：一起去看海边日落" required>
+
+          <label class="input-label" for="dream-2">2.</label>
+          <input id="dream-2" class="dream-input" type="text" maxlength="80" placeholder="比如：一起做一顿晚餐" required>
+
+          <label class="input-label" for="dream-3">3.</label>
+          <input id="dream-3" class="dream-input" type="text" maxlength="80" placeholder="比如：一起计划下一次旅行" required>
+
+          <button class="btn btn-yes submit-btn" type="submit">生成我们的约定</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="final-screen" class="screen">
+      <div class="card final-card">
+        <div class="victory-badge">🏆</div>
+        <h2 class="victory-title">CONGRATS!</h2>
+        <div class="score-circle">
+          <span id="sync-score" class="score-number">0</span>
+          <span class="score-label">默契指数</span>
+        </div>
+        <p class="victory-subtitle">最佳情侣认证成功！</p>
+
+        <div class="achievement-box">
+          <div class="achievement-icon">💕</div>
+          <div class="achievement-text">
+            <span class="achievement-name">心有灵犀</span>
+            <span id="match-count" class="achievement-desc">答对 X 题</span>
+          </div>
+        </div>
+
+        <h3 class="mission-title">🎯 接下来的任务清单</h3>
+        <div id="mission-list" class="mission-list">
+          <!-- 动态生成 -->
+        </div>
+
+        <div class="unlock-msg" id="unlock-msg">
+          <span class="sparkle">✨</span>
+          完成所有任务解锁下一个惊喜
+          <span class="sparkle">✨</span>
+        </div>
+
+        <div class="cta-row final-cta">
+          <button id="share-btn" class="btn btn-yes share-btn" type="button">
+            <span>📸 生成纪念卡</span>
+          </button>
+          <button id="restart-btn" class="btn btn-no" type="button">
+            <span>🎮 再挑战一次</span>
+          </button>
+        </div>
+        <p id="copy-msg" class="hint"></p>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
