@@ -239,11 +239,11 @@ function startTrailingHearts() {
     if (!pixelScene) return;
     
     // 在女孩头上生成跟随的爱心
-    createTrailingHeart(pixelGirl, -30, -40);
+    createTrailingHeart(pixelGirl, -10, -20);
     
     // 在男孩头上生成跟随的爱心（延迟一点，营造追逐感）
     setTimeout(() => {
-      createTrailingHeart(pixelBoy, -30, -40);
+      createTrailingHeart(pixelBoy, -10, -20);
     }, 100);
     
   }, 400);
