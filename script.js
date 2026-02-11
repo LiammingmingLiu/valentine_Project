@@ -141,7 +141,7 @@ class Fireworks {
 
 const quizData = [
   {
-    question: "我们最值得纪念的"第一次"你觉得是哪一个？",
+    question: "我们最值得纪念的「第一次」你觉得是哪一个？",
     options: ["第一次见面", "第一次kiss", "第一次决定在一起", "第一次一起睡"],
     correct: 2,
   },
@@ -166,7 +166,7 @@ const quizData = [
     correct: 1,
   },
   {
-    question: "你觉得我给你发"在干嘛"的真实潜台词更像？",
+    question: "你觉得我给你发「在干嘛」的真实潜台词更像？",
     options: ["好想你啊！好想抱抱你", "好想你啊！好想亲亲你", "想你想的要发疯", "不想回答，毁灭吧"],
     correct: 0,
   },
@@ -532,33 +532,8 @@ dreamForm.addEventListener("submit", async (e) => {
   }
   fireworks.start();
 
-  const score = answers.filter((a, i) => a === quizData[i].correct).length;
-  const payload = {
-    quiz: quizData.map((item, index) => ({
-      question: item.question,
-      her: item.options[answers[index]],
-      mine: item.options[item.correct],
-      matched: answers[index] === item.correct,
-    })),
-    score,
-    total: quizData.length,
-    picks: [],
-    dreams,
-  };
-
-  try {
-    const response = await fetch("/api/submit", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-    const result = await response.json();
-    if (result.ok) {
-      submitMsg.textContent = "✅ 约定已保存，等我们一一实现。";
-    }
-  } catch (err) {
-    submitMsg.textContent = "⚠️ 保存失败，但约定记在心里了。";
-  }
+  fillList(manualList, dreams);
+  selectedList.innerHTML = "<li>（通过问答挑战选择的默契活动）</li>";
 });
 
 shareBtn.addEventListener("click", async () => {
