@@ -564,3 +564,6 @@ restartBtn.addEventListener("click", () => {
   }
   showScreen("intro");
 });
+
+// 页面加载时启动首页动画
+startHeartEmitter();

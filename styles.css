@@ -111,11 +111,11 @@ h3 {
 }
 
 .pixel-girl {
-  animation: chaseGirl 5.2s linear infinite;
+  animation: chaseGirl 8s linear infinite;
 }
 
 .pixel-boy {
-  animation: chaseBoy 5.2s linear infinite;
+  animation: chaseBoy 8s linear infinite;
 }
 
 .sprite {
@@ -669,16 +669,22 @@ h3 {
   70% { transform: translateY(-3px); }
   80% { transform: translateY(0); }
   90% { transform: translateY(-3px); }
-  100% { left: calc(100% - var(--runner)); transform: translateY(0); }
+  100% { left: calc(100% + var(--runner)); transform: translateY(0); }
 }
 
 @keyframes chaseBoy {
-  /* Keep him behind the girl so they don't overlap */
   0% { left: calc((-1 * var(--runner)) - var(--gap)); transform: translateY(0); }
   10% { transform: translateY(-3px); }
   20% { transform: translateY(0); }
   30% { transform: translateY(-3px); }
   40% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+  60% { transform: translateY(0); }
+  70% { transform: translateY(-3px); }
+  80% { transform: translateY(0); }
+  90% { transform: translateY(-3px); }
+  100% { left: calc(100% + var(--runner) - var(--gap)); transform: translateY(0); }
+}
   50% { transform: translateY(-3px); }
   60% { transform: translateY(0); }
   70% { transform: translateY(-3px); }
