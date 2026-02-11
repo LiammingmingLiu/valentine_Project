@@ -507,9 +507,6 @@ dreamForm.addEventListener("submit", async (e) => {
     return;
   }
 
-  fillList(manualList, dreams);
-  selectedList.innerHTML = "<li>（通过问答挑战选择的默契活动）</li>";
-
   showScreen("final");
 
   // 计算默契指数并动画显示
@@ -531,9 +528,6 @@ dreamForm.addEventListener("submit", async (e) => {
     }, i * 200);
   }
   fireworks.start();
-
-  fillList(manualList, dreams);
-  selectedList.innerHTML = "<li>（通过问答挑战选择的默契活动）</li>";
 });
 
 shareBtn.addEventListener("click", async () => {
