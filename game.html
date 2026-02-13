@@ -3,95 +3,144 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Will You Be My Valentine?</title>
+  <title>💕 Will You Be My Valentine? 💕</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="background-glow"></div>
+  <!-- Sound toggle -->
+  <button id="sound-toggle" class="sound-toggle" type="button" aria-label="Toggle sound">🔇</button>
+
+  <!-- Pixel starfield background canvas -->
+  <canvas id="bg-canvas" class="bg-canvas"></canvas>
+
+  <!-- Screen transition overlay -->
+  <div id="screen-transition" class="screen-transition"></div>
 
   <main class="app-shell">
+    <!-- ===== INTRO SCREEN ===== -->
     <section id="intro-screen" class="screen active">
-      <p class="kicker">For my favorite person across the ocean</p>
-      <h1>Will you be my valentine?</h1>
-      <p class="subtitle">就算不在你身边，也想把今天变得很特别。</p>
+      <div class="intro-content">
+        <p class="kicker" id="kicker-text"></p>
+        <h1 class="pixel-title" id="title-text"></h1>
+        <p class="subtitle" id="subtitle-text"></p>
 
-      <div class="pixel-scene" aria-hidden="true">
-        <div class="pixel-runner pixel-girl">
-          <div class="sprite sprite-girl" aria-hidden="true"></div>
+        <div class="pixel-scene" aria-hidden="true">
+          <div class="pixel-runner pixel-girl">
+            <div class="sprite sprite-girl" aria-hidden="true"></div>
+          </div>
+          <div class="pixel-runner pixel-boy">
+            <div class="sprite sprite-boy" aria-hidden="true"></div>
+          </div>
         </div>
-        <div class="pixel-runner pixel-boy">
-          <div class="sprite sprite-boy" aria-hidden="true"></div>
-        </div>
-      </div>
 
-      <div class="cta-row">
-        <button id="yes-btn" class="btn btn-yes" type="button">Yes</button>
-        <button id="no-btn" class="btn btn-no" type="button">No</button>
+        <div id="easter-egg-msg" class="easter-egg-msg"></div>
+
+        <div class="cta-row">
+          <button id="yes-btn" class="btn btn-start" type="button">
+            <span class="btn-icon">▶</span> START
+          </button>
+          <button id="no-btn" class="btn btn-no" type="button">No</button>
+        </div>
       </div>
     </section>
 
+    <!-- ===== QUIZ SCREEN ===== -->
     <section id="quiz-screen" class="screen">
       <header class="quiz-header">
-        <p id="progress-text">Question 1 / 6</p>
-        <div class="progress-track" aria-hidden="true">
-          <div id="progress-fill" class="progress-fill"></div>
+        <p id="progress-text" class="progress-label">QUEST 1 / 7</p>
+        <div class="xp-bar-track" aria-hidden="true">
+          <div id="progress-fill" class="xp-bar-fill"></div>
+          <span class="xp-bar-label">EXP</span>
         </div>
       </header>
 
-      <div class="card">
-        <h2 id="question-text"></h2>
+      <div class="dialogue-box">
+        <div class="dialogue-speaker">💌 心有灵犀</div>
+        <h2 id="question-text" class="dialogue-text"></h2>
+        <div id="quiz-feedback" class="quiz-feedback"></div>
         <div id="options-wrap" class="options-wrap"></div>
-        <button id="next-btn" class="btn btn-next" type="button" disabled>下一题</button>
+        <button id="next-btn" class="btn btn-next" type="button" disabled>
+          <span class="btn-icon">▶</span> 下一题
+        </button>
       </div>
     </section>
 
+    <!-- ===== WISH SCREEN ===== -->
     <section id="wish-screen" class="screen">
-      <div class="card">
-        <h2 id="score-title">我们的心有灵犀挑战完成啦</h2>
+      <div class="dialogue-box wish-box">
+        <div class="treasure-chest-icon" id="chest-icon">🎁</div>
+        <h2 id="score-title" class="dialogue-text">挑战完成！</h2>
         <p id="score-desc" class="subtitle"></p>
         <div id="score-breakdown" class="score-breakdown"></div>
 
-        <h3>写下你最想和我做的三件事</h3>
+        <h3 class="wish-prompt">✨ 写下你最想和我做的三件事 ✨</h3>
+        <p class="wish-subtitle">把愿望封印在宝箱里吧...</p>
         <form id="dream-form" novalidate>
-          <label class="input-label" for="dream-1">1.</label>
-          <input id="dream-1" class="dream-input" type="text" maxlength="80" placeholder="比如：一起去看海边日落" required>
+          <div class="scroll-paper">
+            <label class="input-label" for="dream-1">01</label>
+            <input id="dream-1" class="dream-input" type="text" maxlength="80" placeholder="比如：一起去看海边日落" required>
 
-          <label class="input-label" for="dream-2">2.</label>
-          <input id="dream-2" class="dream-input" type="text" maxlength="80" placeholder="比如：一起做一顿晚餐" required>
+            <label class="input-label" for="dream-2">02</label>
+            <input id="dream-2" class="dream-input" type="text" maxlength="80" placeholder="比如：一起做一顿晚餐" required>
 
-          <label class="input-label" for="dream-3">3.</label>
-          <input id="dream-3" class="dream-input" type="text" maxlength="80" placeholder="比如：一起计划下一次旅行" required>
+            <label class="input-label" for="dream-3">03</label>
+            <input id="dream-3" class="dream-input" type="text" maxlength="80" placeholder="比如：一起计划下一次旅行" required>
+          </div>
 
-          <button class="btn btn-yes submit-btn" type="submit">生成我们的约定</button>
+          <button class="btn btn-seal" type="submit" id="seal-btn">
+            <span class="btn-icon">🔒</span> 封印宝箱
+          </button>
         </form>
       </div>
     </section>
 
+    <!-- ===== FINAL SCREEN ===== -->
     <section id="final-screen" class="screen">
+      <canvas id="fireworks-canvas" class="fireworks-canvas"></canvas>
       <div class="card final-card">
-        <div class="victory-badge">🏆</div>
-        <h2 class="victory-title">CONGRATS!</h2>
-        <div class="score-circle">
+        <div class="stage-clear-banner" id="stage-clear">
+          <span class="stage-clear-text">STAGE CLEAR!</span>
+        </div>
+
+        <div class="score-circle pixel-border">
           <span id="sync-score" class="score-number">0</span>
+          <span class="score-unit">%</span>
           <span class="score-label">默契指数</span>
         </div>
-        <p class="victory-subtitle">最佳情侣认证成功！</p>
 
-        <div class="achievement-box">
-          <div class="achievement-icon">💕</div>
-          <div class="achievement-text">
-            <span class="achievement-name">心有灵犀</span>
-            <span id="match-count" class="achievement-desc">答对 X 题</span>
+        <!-- Achievement unlock popup -->
+        <div class="achievement-popup" id="achievement-popup">
+          <div class="achievement-popup-inner">
+            <span class="achievement-popup-icon">🏆</span>
+            <div>
+              <div class="achievement-popup-title">ACHIEVEMENT UNLOCKED!</div>
+              <div class="achievement-popup-name">心有灵犀</div>
+              <div id="match-count" class="achievement-popup-desc">答对 X 题</div>
+            </div>
           </div>
         </div>
 
-        <h3 class="mission-title">🎯 接下来的任务清单</h3>
-        <div id="mission-list" class="mission-list">
-          <!-- 动态生成 -->
+        <!-- Cute couple pixel art -->
+        <div class="couple-hug-container" id="couple-hug">
+          <div class="pixel-couple">
+            <div class="pixel-person pixel-her">
+              <div class="pixel-head her-head"></div>
+              <div class="pixel-body her-body"></div>
+            </div>
+            <div class="pixel-heart-float">❤️</div>
+            <div class="pixel-person pixel-him">
+              <div class="pixel-head him-head"></div>
+              <div class="pixel-body him-body"></div>
+            </div>
+          </div>
+          <p class="couple-caption">永远在一起 ♥</p>
         </div>
+
+        <h3 class="mission-title">📜 QUEST LOG</h3>
+        <div id="mission-list" class="mission-list"></div>
 
         <div class="unlock-msg" id="unlock-msg">
           <span class="sparkle">✨</span>
@@ -100,11 +149,11 @@
         </div>
 
         <div class="cta-row final-cta">
-          <button id="share-btn" class="btn btn-yes share-btn" type="button">
-            <span>📸 生成纪念卡</span>
+          <button id="share-btn" class="btn btn-start share-btn" type="button">
+            <span class="btn-icon">📸</span> 生成纪念卡
           </button>
           <button id="restart-btn" class="btn btn-no" type="button">
-            <span>🎮 再挑战一次</span>
+            <span class="btn-icon">🎮</span> 再挑战一次
           </button>
         </div>
         <p id="copy-msg" class="hint"></p>
